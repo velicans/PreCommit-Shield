@@ -1,0 +1,58 @@
+# Pylint configuration - Google Python Style Guide
+# https://google.github.io/styleguide/pyguide.html
+
+[MAIN]
+load-plugins=pylint.extensions.docparams
+
+[FORMAT]
+# Google style: 4-space indentation
+indent-string='    '
+indent-after-paren=4
+max-line-length=80
+max-module-lines=1000
+single-line-class-stmt=no
+single-line-if-stmt=no
+
+[BASIC]
+# Google naming conventions
+function-rgx=[a-z_][a-z0-9_]{2,30}$
+method-rgx=[a-z_][a-z0-9_]{2,30}$
+variable-rgx=[a-z_][a-z0-9_]{0,30}$
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+class-rgx=[A-Z_][a-zA-Z0-9]+$
+module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$
+attr-rgx=[a-z_][a-z0-9_]{0,30}$
+argument-rgx=[a-z_][a-z0-9_]{0,30}$
+class-attribute-rgx=([A-Za-z_][A-Za-z0-9_]{0,30}|(__.*__))$
+good-names=i,j,k,e,f,v,x,y,_
+
+[MESSAGES CONTROL]
+# Disable overly strict checks; enable Google-relevant ones
+disable=
+    too-few-public-methods,
+    too-many-arguments,
+    too-many-instance-attributes,
+    fixme,
+    locally-disabled,
+    suppressed-message
+
+[IMPORTS]
+# Google style: imports should be on separate lines
+allow-wildcard-with-all=no
+
+[DESIGN]
+max-args=5
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50
+max-parents=7
+max-attributes=7
+
+[TYPECHECK]
+ignored-modules=
+ignored-classes=
+
+[DOCSTRING]
+# Google style docstrings
+default-docstring-type=google

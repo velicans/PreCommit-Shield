@@ -1,0 +1,154 @@
+repos:
+  # ============================================================
+  # 1. SECRET SCANNING (Gitleaks)
+  # ============================================================
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+
+  # ============================================================
+  # 2. LINTING & FORMATTING - JavaScript (ESLint + Google Style)
+  # ============================================================
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v10.4.0
+    hooks:
+      - id: eslint
+        args: ['--fix']
+        files: \.(js|mjs|cjs)$
+        additional_dependencies:
+          - eslint@latest
+          - eslint-config-google@latest
+
+  # ============================================================
+  # 3. FORMATTING - JavaScript & JSON (Prettier - Google compatible)
+  # ============================================================
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        types_or: [javascript, json]
+        files: \.(js|mjs|cjs|json)$
+
+  # ============================================================
+  # 4. FORMATTING - Java (google-java-format)
+  # ============================================================
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.16.0
+    hooks:
+      - id: pretty-format-java
+        args: [--autofix, --google-java-formatter-version=1.25.0]
+
+  # ============================================================
+  # 5. FORMATTING - Python (yapf - Google Style)
+  # ============================================================
+  - repo: https://github.com/pre-commit/mirrors-yapf
+    rev: v0.32.0
+    hooks:
+      - id: yapf
+        args: ['--style=google']
+
+  # ============================================================
+  # 6. LINTING - Python (pylint - Google conventions)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: pylint-google
+        name: Pylint (Google Style)
+        entry: pylint --rcfile=.pylintrc
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+  # ============================================================
+  # 7. FORMATTING - TypeScript (Google TypeScript Style - gts)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: gts-lint
+        name: Google TypeScript Style (gts)
+        entry: npx gts lint
+        language: node
+        files: \.ts$
+        pass_filenames: true
+        additional_dependencies:
+          - gts@latest
+          - typescript@latest
+
+  # ============================================================
+  # 8. LINTING - Shell (shellcheck - Google Shell Style Guide)
+  # ============================================================
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+        args: ['--severity=warning']
+
+  # ============================================================
+  # 9. FORMATTING - Shell (shfmt - Google Style: 2-space indent)
+  # ============================================================
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.13.1-1
+    hooks:
+      - id: shfmt
+        args: ['-i', '2', '-ci', '-bn', '-w']
+
+  # ============================================================
+  # 10. LINTING - Markdown (markdownlint - Google Markdown Style)
+  # ============================================================
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.48.0
+    hooks:
+      - id: markdownlint
+        args: ['--config', '.markdownlint.json', '--fix']
+
+  # ============================================================
+  # 11. LINTING - HTML/CSS (htmlhint + stylelint)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: htmlhint
+        name: HTMLHint (Google HTML Style)
+        entry: npx htmlhint --config .htmlhintrc
+        language: node
+        files: \.html$
+        pass_filenames: true
+        additional_dependencies:
+          - htmlhint@latest
+      - id: stylelint
+        name: Stylelint (Google CSS Style)
+        entry: npx stylelint --config .stylelintrc.json --fix
+        language: node
+        files: \.(css|scss)$
+        pass_filenames: true
+        additional_dependencies:
+          - stylelint@latest
+          - stylelint-config-standard@latest
+
+  # ============================================================
+  # 12. DEPENDENCY & DOCKER SCANNING (Trivy)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: trivy-dependency-scan
+        name: Trivy Vulnerability Scan
+        entry: trivy fs --severity CRITICAL,HIGH --exit-code 1 .
+        language: system
+        pass_filenames: false
+      - id: trivy-docker-scan
+        name: Trivy Dockerfile Check
+        entry: trivy config --severity HIGH,CRITICAL --exit-code 1 Dockerfile
+        language: system
+        pass_filenames: false
+
+  # ============================================================
+  # 13. FORMATTING - Scala (scalafmt)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: scalafmt
+        name: Scalafmt (Scala formatter)
+        entry: scalafmt
+        language: system
+        files: \.scala$
+        pass_filenames: true

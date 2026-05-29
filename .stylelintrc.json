@@ -1,0 +1,24 @@
+{
+  "comment": "Google HTML/CSS Style Guide - https://google.github.io/styleguide/htmlcssguide.html",
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "indentation": 2,
+    "max-line-length": 80,
+    "color-hex-length": "short",
+    "color-no-invalid-hex": true,
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "selector-type-case": "lower",
+    "selector-class-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "selector-id-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "property-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true,
+    "selector-no-vendor-prefix": true,
+    "no-descending-specificity": true,
+    "declaration-no-important": true,
+    "unit-allowed-list": ["em", "rem", "%", "px", "vh", "vw", "s", "ms", "deg", "fr"],
+    "number-leading-zero": "always",
+    "string-quotes": "single",
+    "font-family-name-quotes": "always-where-recommended"
+  }
+}

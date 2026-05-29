@@ -1,0 +1,21 @@
+{
+  "comment": "Google HTML/CSS Style Guide - https://google.github.io/styleguide/htmlcssguide.html",
+  "doctype-first": true,
+  "tag-pair": true,
+  "tag-self-close": false,
+  "tagname-lowercase": true,
+  "attr-lowercase": true,
+  "attr-value-double-quotes": true,
+  "attr-no-duplication": true,
+  "title-require": true,
+  "id-unique": true,
+  "src-not-empty": true,
+  "alt-require": true,
+  "spec-char-escape": true,
+  "head-script-disabled": true,
+  "style-disabled": false,
+  "inline-style-disabled": true,
+  "space-tab-mixed-disabled": "space2",
+  "id-class-ad-disabled": true,
+  "attr-unsafe-chars": true
+}
