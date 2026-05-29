@@ -1,8 +1,8 @@
 # 🛡️ PreCommit-Shield
 
-**Automated pre-commit hooks enforcing [Google Style Guides](https://google.github.io/styleguide/) across 10 languages.**
+**Automated pre-commit hooks enforcing [Google Style Guides](https://google.github.io/styleguide/) across 10 languages with static analysis bug detection.**
 
-One config to rule them all — secrets scanning, vulnerability checks, and code formatting that runs automatically before every commit.
+One config to rule them all — secrets scanning, vulnerability checks, bug detection, and code formatting that runs automatically before every commit.
 
 ---
 
@@ -12,7 +12,7 @@ One config to rule them all — secrets scanning, vulnerability checks, and code
 |---|----------|--------------------|--------------------|----------|
 | 1 | **JavaScript** | ESLint + `eslint-config-google` | [JS Style Guide](https://google.github.io/styleguide/jsguide.html) | ✅ |
 | 2 | **JSON** | Prettier | [JSON Style Guide](https://google.github.io/styleguide/jsoncstyleguide.xml) | ✅ |
-| 3 | **Java** | `google-java-format` | [Java Style Guide](https://google.github.io/styleguide/javaguide.html) | ✅ |
+| 3 | **Java** | `google-java-format` + **PMD** | [Java Style Guide](https://google.github.io/styleguide/javaguide.html) | ✅ |
 | 4 | **Python** | `yapf` + `pylint` | [Python Style Guide](https://google.github.io/styleguide/pyguide.html) | ✅ |
 | 5 | **TypeScript** | `gts` (Google TypeScript Style) | [TS Style Guide](https://google.github.io/styleguide/tsguide.html) | ✅ |
 | 6 | **Shell / Bash** | `shellcheck` + `shfmt` | [Shell Style Guide](https://google.github.io/styleguide/shellguide.html) | ✅ |
@@ -20,6 +20,22 @@ One config to rule them all — secrets scanning, vulnerability checks, and code
 | 8 | **HTML** | `htmlhint` | [HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html) | — |
 | 9 | **CSS / SCSS** | `stylelint` | [HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html) | ✅ |
 | 10 | **Scala** | `scalafmt` | Custom config | ✅ |
+
+## 🐛 Static Analysis — Bug Detection
+
+| Tool | What it catches |
+|------|-----------------|
+| **[PMD](https://pmd.github.io/)** | Null dereferences, unused variables, empty catch blocks, resource leaks, concurrency bugs, security flaws, code complexity — **400+ rules** across 6 categories |
+
+PMD analyzes Java **source code** directly (no compilation needed) and runs fast on individual files — ideal for pre-commit.
+
+**Rule categories enabled:**
+- **Error Prone** — real bugs that cause runtime failures
+- **Best Practices** — patterns that prevent bugs
+- **Multithreading** — concurrency and race condition bugs
+- **Performance** — common performance pitfalls
+- **Security** — injection, crypto, sensitive data exposure
+- **Design** — excessive complexity and coupling
 
 ## 🔒 Security Hooks
 
@@ -60,7 +76,10 @@ pre-commit run --all-files
 
 ```text
 PreCommit-Shield/
-├── .pre-commit-config.yaml    # 15 hooks — the main config
+├── .pre-commit-config.yaml    # 16 hooks — the main config
+│
+├── pmd-ruleset.xml            # Java → PMD bug detection rules
+├── scripts/run-pmd.sh         # PMD wrapper (auto-downloads PMD)
 │
 ├── eslint.config.mjs          # JS  → Google JavaScript Style
 ├── .prettierrc.json           # JS/JSON → Google-compatible formatting
@@ -93,9 +112,9 @@ PreCommit-Shield/
 ### Java
 
 - **Google Java Format** — canonical, non-configurable
-- **2-space** indentation
-- **100-character** line limit
+- **2-space** indentation, **100-character** line limit
 - Google import ordering
+- **PMD** — 400+ bug patterns (null derefs, concurrency, security, performance)
 
 ### Python
 
@@ -137,17 +156,18 @@ PreCommit-Shield/
 | 2 | `eslint` | ESLint | `.js` `.mjs` `.cjs` | fix |
 | 3 | `prettier` | Prettier | `.js` `.json` | fix |
 | 4 | `pretty-format-java` | google-java-format | `.java` | fix |
-| 5 | `yapf` | yapf | `.py` | fix |
-| 6 | `pylint-google` | Pylint | `.py` | check |
-| 7 | `gts-lint` | gts | `.ts` | check |
-| 8 | `shellcheck` | ShellCheck | `.sh` `.bash` | check |
-| 9 | `shfmt` | shfmt | `.sh` `.bash` | fix |
-| 10 | `markdownlint` | markdownlint-cli | `.md` | fix |
-| 11 | `htmlhint` | HTMLHint | `.html` | check |
-| 12 | `stylelint` | Stylelint | `.css` `.scss` | fix |
-| 13 | `trivy-dependency-scan` | Trivy | all | check |
-| 14 | `trivy-docker-scan` | Trivy | `Dockerfile` | check |
-| 15 | `scalafmt` | Scalafmt | `.scala` | fix |
+| 5 | `pmd-java` | **PMD** | `.java` | **check** |
+| 6 | `yapf` | yapf | `.py` | fix |
+| 7 | `pylint-google` | Pylint | `.py` | check |
+| 8 | `gts-lint` | gts | `.ts` | check |
+| 9 | `shellcheck` | ShellCheck | `.sh` `.bash` | check |
+| 10 | `shfmt` | shfmt | `.sh` `.bash` | fix |
+| 11 | `markdownlint` | markdownlint-cli | `.md` | fix |
+| 12 | `htmlhint` | HTMLHint | `.html` | check |
+| 13 | `stylelint` | Stylelint | `.css` `.scss` | fix |
+| 14 | `trivy-dependency-scan` | Trivy | all | check |
+| 15 | `trivy-docker-scan` | Trivy | `Dockerfile` | check |
+| 16 | `scalafmt` | Scalafmt | `.scala` | fix |
 
 ---
 
@@ -159,6 +179,7 @@ pre-commit autoupdate
 
 # Run a single hook manually
 pre-commit run eslint --all-files
+pre-commit run pmd-java --all-files
 pre-commit run pretty-format-java --all-files
 pre-commit run markdownlint --all-files
 ```
@@ -169,6 +190,7 @@ pre-commit run markdownlint --all-files
 
 - [Google Style Guides (all languages)](https://google.github.io/styleguide/)
 - [pre-commit framework](https://pre-commit.com/)
+- [PMD — Static Code Analyzer](https://pmd.github.io/)
 - [Gitleaks](https://github.com/gitleaks/gitleaks)
 - [Trivy](https://github.com/aquasecurity/trivy)
 - [google-java-format](https://github.com/google/google-java-format)

@@ -48,6 +48,7 @@ pre-commit run --all-files
 # Doar un hook specific:
 pre-commit run eslint --all-files
 pre-commit run pretty-format-java --all-files
+pre-commit run pmd-java --all-files
 pre-commit run yapf --all-files
 pre-commit run shellcheck --all-files
 pre-commit run shfmt --all-files

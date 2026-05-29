@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PMD Ruleset for PreCommit-Shield
+  Based on Java quickstart with focus on real bug detection.
+  https://docs.pmd-code.org/latest/pmd_rules_java.html
+-->
+<ruleset name="PreCommit-Shield"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+                             https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+  <description>
+    PMD rules for Java bug detection — PreCommit-Shield.
+    Categories: bugs, error-prone code, performance, security, best practices.
+  </description>
+
+  <!-- ============================================================ -->
+  <!-- ERROR PRONE — real bugs that will cause runtime failures      -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/errorprone.xml">
+    <exclude name="BeanMembersShouldSerialize" />
+    <exclude name="DataflowAnomalyAnalysis" />
+    <exclude name="AvoidFieldNameMatchingMethodName" />
+  </rule>
+
+  <!-- ============================================================ -->
+  <!-- BEST PRACTICES — patterns that prevent bugs                   -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/bestpractices.xml">
+    <exclude name="JUnitTestContainsTooManyAsserts" />
+    <exclude name="JUnitAssertionsShouldIncludeMessage" />
+    <exclude name="GuardLogStatement" />
+  </rule>
+
+  <!-- ============================================================ -->
+  <!-- MULTITHREADING — concurrency bugs                            -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/multithreading.xml" />
+
+  <!-- ============================================================ -->
+  <!-- PERFORMANCE — common performance pitfalls                    -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/performance.xml" />
+
+  <!-- ============================================================ -->
+  <!-- SECURITY — injection, crypto, sensitive data                 -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/security.xml" />
+
+  <!-- ============================================================ -->
+  <!-- DESIGN — complexity, coupling (warning-level)                -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/design.xml">
+    <exclude name="LawOfDemeter" />
+    <exclude name="LoosePackageCoupling" />
+    <exclude name="ExcessiveImports" />
+    <exclude name="TooManyMethods" />
+  </rule>
+
+  <!-- ============================================================ -->
+  <!-- CODE STYLE — minimal, only what google-java-format misses    -->
+  <!-- ============================================================ -->
+  <rule ref="category/java/codestyle.xml/UnnecessaryImport" />
+  <rule ref="category/java/codestyle.xml/UnnecessaryReturn" />
+  <rule ref="category/java/codestyle.xml/UselessParentheses" />
+  <rule ref="category/java/codestyle.xml/ExtendsObject" />
+  <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop" />
+  <rule ref="category/java/codestyle.xml/UnnecessaryCast" />
+
+</ruleset>

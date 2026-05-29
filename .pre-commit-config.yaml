@@ -40,7 +40,19 @@ repos:
         args: [--autofix, --google-java-formatter-version=1.25.0]
 
   # ============================================================
-  # 5. FORMATTING - Python (yapf - Google Style)
+  # 5. STATIC ANALYSIS - Java (PMD - bug detection)
+  # ============================================================
+  - repo: local
+    hooks:
+      - id: pmd-java
+        name: PMD (Java bug detection)
+        entry: ./scripts/run-pmd.sh
+        language: script
+        files: \.java$
+        pass_filenames: true
+
+  # ============================================================
+  # 6. FORMATTING - Python (yapf - Google Style)
   # ============================================================
   - repo: https://github.com/pre-commit/mirrors-yapf
     rev: v0.32.0
@@ -49,7 +61,7 @@ repos:
         args: ['--style=google']
 
   # ============================================================
-  # 6. LINTING - Python (pylint - Google conventions)
+  # 7. LINTING - Python (pylint - Google conventions)
   # ============================================================
   - repo: local
     hooks:
@@ -61,7 +73,7 @@ repos:
         pass_filenames: true
 
   # ============================================================
-  # 7. FORMATTING - TypeScript (Google TypeScript Style - gts)
+  # 8. FORMATTING - TypeScript (Google TypeScript Style - gts)
   # ============================================================
   - repo: local
     hooks:
@@ -76,7 +88,7 @@ repos:
           - typescript@latest
 
   # ============================================================
-  # 8. LINTING - Shell (shellcheck - Google Shell Style Guide)
+  # 9. LINTING - Shell (shellcheck - Google Shell Style Guide)
   # ============================================================
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.11.0.1
@@ -85,7 +97,7 @@ repos:
         args: ['--severity=warning']
 
   # ============================================================
-  # 9. FORMATTING - Shell (shfmt - Google Style: 2-space indent)
+  # 10. FORMATTING - Shell (shfmt - Google Style: 2-space indent)
   # ============================================================
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.13.1-1
@@ -94,7 +106,7 @@ repos:
         args: ['-i', '2', '-ci', '-bn', '-w']
 
   # ============================================================
-  # 10. LINTING - Markdown (markdownlint - Google Markdown Style)
+  # 11. LINTING - Markdown (markdownlint - Google Markdown Style)
   # ============================================================
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.48.0
@@ -103,7 +115,7 @@ repos:
         args: ['--config', '.markdownlint.json', '--fix']
 
   # ============================================================
-  # 11. LINTING - HTML/CSS (htmlhint + stylelint)
+  # 12. LINTING - HTML/CSS (htmlhint + stylelint)
   # ============================================================
   - repo: local
     hooks:
@@ -126,7 +138,7 @@ repos:
           - stylelint-config-standard@latest
 
   # ============================================================
-  # 12. DEPENDENCY & DOCKER SCANNING (Trivy)
+  # 13. DEPENDENCY & DOCKER SCANNING (Trivy)
   # ============================================================
   - repo: local
     hooks:
@@ -142,7 +154,7 @@ repos:
         pass_filenames: false
 
   # ============================================================
-  # 13. FORMATTING - Scala (scalafmt)
+  # 14. FORMATTING - Scala (scalafmt)
   # ============================================================
   - repo: local
     hooks:

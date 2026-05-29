@@ -2,7 +2,7 @@
 # Google Style Guides enforcement
 
 Write-Host "==> Instalare dependente PreCommit-Shield (Windows)" -ForegroundColor Cyan
-Write-Host "    Google Style Guides enforcement" -ForegroundColor Cyan
+Write-Host "    Google Style Guides enforcement + PMD bug detection" -ForegroundColor Cyan
 Write-Host ""
 
 # 1. Core tools
@@ -52,7 +52,7 @@ Write-Host "    Ruleaza 'pre-commit run --all-files' pentru verificare." -Foregr
 Write-Host ""
 Write-Host "    Google Style Guides active:" -ForegroundColor Cyan
 Write-Host "    - JavaScript  : ESLint + eslint-config-google"
-Write-Host "    - Java        : google-java-format"
+Write-Host "    - Java        : google-java-format + PMD (bug detection)"
 Write-Host "    - Python      : yapf (google style) + pylint"
 Write-Host "    - TypeScript  : gts (Google TypeScript Style)"
 Write-Host "    - Shell       : shellcheck + shfmt"
